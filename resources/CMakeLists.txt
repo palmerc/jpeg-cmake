@@ -19,6 +19,7 @@ include(GNUInstallDirs)
 ### Options ###
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(BUILD_STATIC_LIBS "Build static libraries" ON)
+option(BUILD_PKGCONFIG "Build pkgconfig and libtool" ON)
 cmake_dependent_option(BUILD_EXECUTABLES "Build JPEG utilities" ON "BUILD_SHARED_LIBS OR BUILD_STATIC_LIBS" OFF)
 cmake_dependent_option(BUILD_TESTS "Build test executables" ON "BUILD_SHARED_LIBS OR BUILD_STATIC_LIBS;BUILD_EXECUTABLES" OFF)
 cmake_dependent_option(LINK_STATIC "Link all executables statically" OFF "BUILD_STATIC_LIBS;BUILD_EXECUTABLES" OFF)
@@ -90,7 +91,7 @@ if(BUILD_STATIC_LIBS)
 endif()
 
 # Configure and install pkg-config and libtool files
-if(BUILD_STATIC_LIBS OR BUILD_SHARED_LIBS)
+if(BUILD_PKGCONFIG AND (BUILD_STATIC_LIBS OR BUILD_SHARED_LIBS))
   # Compute the la file's weird version number
   math(EXPR JPEG_CONF_VER_MAJOR "${PROJECT_VERSION_MAJOR} + ${PROJECT_VERSION_MINOR}")
   set(JPEG_LIB_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
